@@ -39,3 +39,19 @@
   3.git branch <branchname> <remote-repo>/<otherbranch> 在指定分支基础上建一个分支
   2.git checkout -b <branchname> 建立并切换分支
   ```
+
+* 推送更新到远程分支
+
+  ```
+  1.git push origin <local-branch>:<remote-branch>
+  ```
+
+* 下载远程分支代码并与本地分支合并
+
+  ```
+  precedence:git remote add origin <url>
+  
+  1.git pull origin <remote-branch>:<local-branch>
+  2.git fetch origin/<branch>  下载代码
+    git merge origin/<branch>  合并代码
+  ```
