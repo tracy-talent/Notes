@@ -1,19 +1,12 @@
-
+﻿
 
 # Git
 
-<<<<<<< HEAD
-* 查看远程分支
-
-  ```
-  git branch -r
-=======
 * 查看分支
 
   ```
   1.git branch -r  查看远程分支
   2.git branch -a  查看所有分支
->>>>>>> c5a8a7ad47e8169a8f4c03856b95d7c4b05fd532
   ```
 
 * 删除远程分支
@@ -31,9 +24,6 @@
     git push origin :refs/tags/<tagname>  然后删除远程标签
   ```
 
-
-<<<<<<< HEAD
-=======
 * 合并分支
 
   ```
@@ -49,4 +39,3 @@
   3.git branch <branchname> <remote-repo>/<otherbranch> 在指定分支基础上建一个分支
   2.git checkout -b <branchname> 建立并切换分支
   ```
->>>>>>> c5a8a7ad47e8169a8f4c03856b95d7c4b05fd532
