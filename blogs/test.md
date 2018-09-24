@@ -1,6 +1,6 @@
 ﻿# markdown
 * nick
-<center>[![baidu](https://coding.net/u/tracy-talent/p/Notes/git/raw/master/imgs/blog_signature.jpg "blog")](https://www.baidu.com)</center>
+[![baidu](https://coding.net/u/tracy-talent/p/Notes/git/raw/master/imgs/blog_signature.jpg "blog")](https://www.baidu.com)
 
 <div align="center">
  <a href="https://www.baidu.com">
