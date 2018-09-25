@@ -15,3 +15,11 @@
   	</a>
   </div>
   ```
+
+[![baidu](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/blog_signature.jpg "悬停文字")](https://www.baidu.com)
+
+<div align="center">
+	<a href="https://www.baidu.com">
+	<img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/blog_signature.jpg" title="悬停文字">
+	</a>
+</div>
