@@ -33,29 +33,39 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Apriori算法产生频繁项集有两个特点：第一，它是逐层的，即从频繁1-项集到频繁k-项集；第二，它使用产生-测试的策略来发现频繁项，每次迭代后都由前一次产生的频繁项来产生新的候选项，然后对新产生的候选项集进行支持度计数得到新的频繁项集。根据算法的特点，我们将算法分为两个阶段：
 如下图1.1算法的并行化框架图，主节点每次迭代时需要将候选项集以广播的形式分发到每个从节点，每个从节点收到之后进行一些列的操作得到新的频繁项集，如此反复直至求得最大频繁项集。
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-并行化框架设计图.png)
+<div align="center">
+	<img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-并行化框架设计图.png">
+</div>
 
 <center>图1.1 并行化框架图</center>
 
 * 阶段1：从HDFS上获取原始的数据集SparkRDD，加载到分布式内存中。扫描所有的RDD事务，进行支持度计数，产生频繁1-项集；如图1.2所示为Ap算法并行化第一阶段的Lineage图。
 
-  ![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-并行化第一阶段Lineage图.png)
+  <div align="center">
+      <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-并行化第一阶段Lineage图.png">
+  </div>
 
   <center>图1.2 Apriori算法并行化第一阶段的Lineage图</center>
 
   原始事务集由flatMap函数去读取事务，并将所有的事务转化为Spark RDD并cache到分布式内存中。接下来，在每一个事务中执行flatMap函数来获取所有的Items项集，之后执行map函数，发射<Item, 1>的key/value形式，接下来执行reduceByKey函数统计每一个候选1-项集的支持度，最后并利用事先设好的支持度阈值进行剪枝，所有超过支持度阈值的项集将会生成频繁1-项集，下面给出了第一阶段的算法伪代码
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-并行化算法伪代码.png)
+  <div align="center">
+      <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-并行化算法伪代码.png">
+  </div>
 
 * 阶段2：在这个阶段，不断迭代使用频繁k-项集去产生频繁k+1项集
 
-  ![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-并行化算法第二阶段Lineage图.png)
+  <div align="center">
+      <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-并行化算法第二阶段Lineage图.png">
+  </div>
 
   <center>图1.3 Apriori算法并行化第二阶段的Lineage图</center>
 
   如图1.3所示，首先读取频繁k-项集并且以<itemSet, Count>的形式将其存储为Spark RDD。接下来，从频繁k-项集得到候选(k+1)-项集。为加速从候选项集中查找(k+1)-项集的过程，将候选(k+1)-项集存放在哈希表中，并将其broadcast到每个worker节点。接下来，通过flatMap函数获取每个候选项集在原始事务集中的支持度，进一步对每个候选项使用map函数得到<ItemSet, 1>，之后通过reduceBykey函数搜集每个事务的最终的支持度计数，最后利用实现设定好的支持度阈值剪枝，支持度大于等于最小阈值的频繁项集将会以key/value的形式输出，作为频繁(k+1)-项集，下面给出了算法第二阶段的伪代码。
 
-  ![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-算法第二阶段伪代码.png)
+  <div align="center">
+      <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-算法第二阶段伪代码.png">
+  </div>
 
 
 ### 2.3 程序设计与性能分析
@@ -258,11 +268,15 @@ $ bash $SPARK_HOME/sbin/stop-all.sh
 ```
 6. 启动hadoop和spark执行jps命令，显示的进程如下图3.1和3.2所示：
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-masterJPS.png)
+<div align="center">
+    <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-masterJPS.png">
+</div>
 
 <center>图3.1 主节点jvm进程</center>
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-slaveJPS.png)
+<div align="center">
+    <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-slaveJPS.png">
+</div>
 
 <center>图3.2 从节点jvm进程</center>
 
@@ -283,17 +297,23 @@ spark-submit --class main.scala.Apriori.distributed.Apriori --master spark://sla
 
 * 测试connect.dat数据集生成频繁项集的运行时间，图3.3是单机版的，图3.4是并行版的：
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori(seq).png)
+<div align="center">
+    <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori(seq).png">
+</div>
 
 <center>图3.3 单机版运行时间</center>
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-2018-12-17%2021-15-32%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png)
+<div align="center">
+    <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-2018-12-17%2021-15-32%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+</div>
 
 <center>图3.4 并行版运行时间</center>
 
 * 在chess.dat数据集上测试并行版本的频繁项集生成和关联规则挖掘的运行时间如下：
 
-  ![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-2018-12-20%2023-29-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png)
+  <div align="center">
+      <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-2018-12-20%2023-29-08%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+  </div>
 
 * chess.dat频繁项集生成结果
 
@@ -301,12 +321,18 @@ spark-submit --class main.scala.Apriori.distributed.Apriori --master spark://sla
 
 * chess.dat关联规则挖掘结果
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-2018-12-20%2023-51-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png)
+<div align="center">
+    <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-2018-12-20%2023-51-19%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+</div>
 
 
 
 ## 四、WebUI执行报告
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-2018-12-20%2023-26-43%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png)
+<div align="center">
+    <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-2018-12-20%2023-26-43%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+</div>
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-2018-12-20%2023-26-55%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png)
+<div align="center">
+    <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-2018-12-20%2023-26-55%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+</div>
