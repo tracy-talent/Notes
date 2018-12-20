@@ -317,7 +317,9 @@ spark-submit --class main.scala.Apriori.distributed.Apriori --master spark://sla
 
 * chess.dat频繁项集生成结果
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-2018-12-20%2023-50-55%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png)
+<div align="center">
+    <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/Apriori-2018-12-20%2023-50-55%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png">
+</div>
 
 * chess.dat关联规则挖掘结果
 
