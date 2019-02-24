@@ -75,13 +75,13 @@ echo "change perm finished! "
 
 ## step4
 
-这时候由于电脑权限损坏无法切换到root用户从而无法直接修改根目录下被损坏文件的权限，需要切换到centos的==emergency mode==(ubuntu的用户对应进入到==recovery mode==)。那么如何进入到emergency mode呢？开机启动的grub界面处对对应系统按下==e==键，就进入到如下画面
+这时候由于电脑权限损坏无法切换到root用户从而无法直接修改根目录下被损坏文件的权限，需要切换到centos的*emergency mode*(ubuntu的用户对应进入到*recovery mode*)。那么如何进入到emergency mode呢？开机启动的grub界面处对对应系统按下*e*键，就进入到如下画面
 
 <div align="center">
     <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/emergency mode.png">
 </div>
 
-然后将上图中红圈标示的==ro==替换成==rw init=/sysroot/bin/sh==，然后根据底下提示按下ctrl+x启动系统则进入到emergency mode，首先执行命令==chroot /sysroot==以获取直接访问真实系统文件的权限，然后进入到chmodfix.sh和chmodfix.txt所存放的文件夹下，执行chmodfix.sh以根据chmodfix.txt恢复受损文件的正确权限
+然后将上图中红圈标示的*ro*替换成*rw init=/sysroot/bin/sh*，然后根据底下提示按下ctrl+x启动系统则进入到emergency mode，首先执行命令*chroot /sysroot*以获取直接访问真实系统文件的权限，然后进入到chmodfix.sh和chmodfix.txt所存放的文件夹下，执行chmodfix.sh以根据chmodfix.txt恢复受损文件的正确权限
 
 ```shell
 bash chmodfix.sh chmodfix.txt
