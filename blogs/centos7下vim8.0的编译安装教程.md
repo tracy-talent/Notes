@@ -1,6 +1,8 @@
 之前安装YouCompleteMe的时候遇到vim版本不兼容的问题，看网上说是需要将vim版本提升到8.0及以上，然后就开始安装最新版本的vim，安装过程中的遇到了不少问题主要集中在配置方面和缺少插件，在这里把最终的安装方法贴出来，希望能帮到需要的朋友，也是考虑到自己以后可能还要用到。
 
-## step1
+## <div align="center">
+    <img src="">
+</div>
 
 为了使vim支持ruby、lua、perl、python2、python3编写的插件，在正式编译安装vim之前需要在系统中安装好相关插件，否则编译vim会出错。
 
@@ -108,6 +110,6 @@ export PATH=/usr/local/vim/bin:$PATH
 source /etc/bashrc或者重新打开一个终端就可以使用vim和gvim来打开文件了。下图是我安装好之后执行vim --version的输出截图
 
 <div align="center">
-    <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/vim8.1截图.png">
+    <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/vim8截图.png">
 </div>
 
