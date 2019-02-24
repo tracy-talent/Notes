@@ -110,6 +110,6 @@ export PATH=/usr/local/vim/bin:$PATH
 source /etc/bashrc或者重新打开一个终端就可以使用vim和gvim来打开文件了。下图是我安装好之后执行vim --version的输出截图
 
 <div align="center">
-    <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/vim8截图.png">
+    <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/vim_version.png">
 </div>
 
