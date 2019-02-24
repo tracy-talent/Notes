@@ -49,4 +49,4 @@ POWERLINE_BASH_SELECT=1
 . /usr/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh 
 ```
 
-如果只想作用于某一个用户，则只需对用户环境变量进行修改，在~/.bashrc的文件末尾添加上面一致的配置内容，这是再打开一个新的终端应该就可以看到powerline的渲染效果了，如果还是没有则重启一下电脑试试看，如果还是没有则在上面配置的基础上加一行export TERM="screen-256color"试试。
+如果只想作用于某一个用户，则只需对用户环境变量进行修改，在~/.bashrc的文件末尾添加上面一致的配置内容，这是再打开一个新的终端应该就可以看到powerline的渲染效果了，如果还是没有则重启一下电脑试试看，如果还是没有则在上面配置的基础上加一行export TERM="screen-256color"试试。对于powerline在vim中的安装在我的另一篇博客[vim配置python编程环境及YouCompleteMe安装教程](https://www.cnblogs.com/brooksj/p/10428722.html)中有提到，可以参考一下。

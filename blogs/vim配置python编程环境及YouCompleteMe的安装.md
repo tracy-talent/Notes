@@ -2,7 +2,7 @@ python号称人工智能语言，现在可算大热，这篇博客将介绍如�
 
 ## step1
 
-由于安装YouCompleteMe需要vim8.0及以上版本，所以得安装使用vim的8.0及以上版本，使用vim --version查看自己的vim版本，如果没达到要求可以参考我的另一篇博客[vim8.0安装教程]()进行安装。接着使用git安装vim的包管理工具Vundle
+由于安装YouCompleteMe需要vim8.0及以上版本，所以得安装使用vim的8.0及以上版本，使用vim --version查看自己的vim版本，如果没达到要求可以参考我的另一篇博客[vim8.0安装教程](https://www.cnblogs.com/brooksj/p/10428705.html)进行安装。接着使用git安装vim的包管理工具Vundle
 
 ```shell
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
@@ -188,7 +188,9 @@ set shiftwidth=4
 
 终端执行vim命令打开vim，然后输入命令PLuginInstall对上面配置的插件进行安装，下面是我安装好之后插件截图
 
-
+<div align="center">
+    <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/vundle_plugin.png">
+</div>
 
 ## step4
 
@@ -207,4 +209,16 @@ YouCompleteMe的安装比较特殊，使用Vundle安装好之后还需要进入�
 后期需要其他的语言补全可以上网查一下对应的安装选项然后附加在./install.py之后执行即可。
 
 到此vim的python配置就全部完成了，且看vim的效果图
+
+<div align="center">
+    <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/vim效果图.png">
+</div>
+
+
+
+参考：
+
+https://www.cnblogs.com/cjy15639731813/p/5886158.html
+
+https://blog.csdn.net/nzyalj/article/details/75331822
 
