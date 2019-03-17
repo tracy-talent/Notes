@@ -44,6 +44,7 @@
 
   ```
   1.git push origin <local-branch>:<remote-branch>
+  2.git push -u origin master:master  如果远程库是空的，我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令。
   ```
 
 * 下载远程分支代码并与本地分支合并
@@ -54,4 +55,74 @@
   1.git pull origin <remote-branch>:<local-branch>
   2.git fetch origin/<branch>  下载代码
     git merge origin/<branch>  合并代码
+  ```
+
+* 撤销提交(commit)
+
+  ```
+  1.git reset --hard HEAD^  工作区回退到最近一个commit之前的状态,撤销上一个commit
+  2.git reset --hard commitid  直接移到想要的commit状态
+  3.git reset --hard HEAD~n  撤销最近的n个commit
+  ```
+
+* 撤销工作区最近一次提交后的修改
+
+  ```
+  git checkout -- file
+  ```
+
+* 撤销添加到暂存区(stage)中的修改
+
+  ```
+  git reset HEAD file
+  ```
+
+* 查看远程版本库
+
+  ```
+  git remote -v
+  ```
+
+* merge之后禁止fast faward模式以保留合并分支的历史信息而不被删除
+
+  ```
+  git merge --no-ff -m "no fast forward commit" dev
+  ```
+
+* 保存暂存区工作
+
+  ```
+  当我们在开发分支下的工作还未提交只是在暂存区,但是又需要切换到别的分支修复bug,那么可以使用git stash来保存工作目录和索引状态
+  1.git stash 保存当前分支下的工作目录和索引状态
+  2.git stash apply 恢复最近保存的工作状态
+  3.git stash list 查看保存的工作状态
+  4.git stash apply stash@(id)  依据git stash list查到的id来定位恢复
+  5.git stash drop 删除最近保存的一个工作状态
+  6.git stash pop 恢复最近的一个工作状态并把它删除
+  ```
+
+* 建立本地分支与远程分支的关联
+
+  ```
+  如果执行git pull命令因为无法track到远程分支而失败,可以使用git pull <remote> <branch>指明,也可以使用如下命令为本地分支和远程分支建立关联
+  git branch --set-upstream-to=<remote>/<branch> <localbranch>
+  ```
+
+* git rebase
+
+  ```
+  1.rebase操作可以把本地未push的分叉提交历史整理成直线；
+  2.rebase的目的是使得我们在查看历史提交的变化时更容易，因为分叉的提交需要三方对比。
+  ```
+
+* 标签
+
+  ```
+  1.git tag 查看所用标签
+  2.git show tagname 查看某个标签的详细信息,包括commitid
+  3.git tag -a tagname -m "describtion" commitid 打标签,标签是基于某一次commit来建立的,不指定commitid则基于当前分支最新的commit,描述信息会出现在git show tagname中
+  4.git push origin tagname  推送分支到远程
+  5.git push origin --tags  推送所有未推送过的本地标签
+  6.git tag -d tagname  删除本地分支
+  7.git push origin :refs/tags/tagname  删除远程分支(删除不掉则先删除本地对应分支)
   ```
