@@ -126,3 +126,9 @@
   6.git tag -d tagname  删除本地分支
   7.git push origin :refs/tags/tagname  删除远程分支(删除不掉则先删除本地对应分支)
   ```
+
+* git clone指定分支
+
+  ```
+  git clone -b [branchname] [URL]
+  ```
