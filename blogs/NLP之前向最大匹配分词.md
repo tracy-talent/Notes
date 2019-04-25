@@ -1,4 +1,4 @@
-<center><h1>seg:NLP之前向最大匹配分词</h1></center>
+<center><h1>seg:NLP之正向最大匹配分词</h1></center>
 
 完整代码实现放在我的github上:[click me](https://github.com/tracy-talent/curriculum/tree/master/NLP/seg)
 
