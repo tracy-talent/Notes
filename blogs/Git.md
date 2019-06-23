@@ -132,3 +132,25 @@
   ```
   git clone -b [branchname] [URL]
   ```
+
+* git submodule相关操作
+
+  ```shell
+  1.git submodule add https://git.oschina.net/gaofeifps/leg.git 下载子模块，除了多出一个子模块目录，还会新加一个.gitmodules文件用于存储所有子模块名字与url，主仓库中存的是指向子模块的commit指针，注意切换到子模块的master分支同步到远程最新的commit
+  
+  2.download带有子模块的仓库有两种方式
+  git clone https://git.oschina.net/gaofeifps/body.git
+  git submodule init && git submodule update
+  #下面这一句的效果和上面三条命令的效果是一样的,多加了个参数  `--recursive`
+  git clone https://git.oschina.net/gaofeifps/body.git --recursive
+  
+  3.将三方库同步到主线，在对子模块更新完毕后，先切换到子模块的mater分支，然后push到远程，然后切到主仓库的master分支push到远程，使得主仓库能即时追踪子模块的最新提交(对于别人开源的第三方库必须先fork一份，然后在fork的基础上更新，如果想合并到原作者的仓库中，则需要pull request)
+  
+  4.批量更新第三方库
+  git submodule foreach git checkout master
+  git submodule foreach git submodule update
+  
+  5.删除submodule，查看.gitmodules文件查看各个submodule-name
+  git rm <submodule-name>
+  git submodule deinit <submodule-name>
+  ```
