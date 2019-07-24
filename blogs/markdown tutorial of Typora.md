@@ -103,7 +103,7 @@ H~2~O 是液体。
 
 ## 如何插入一段漂亮的代码片
 
-展示同样高亮的 `代码片`.
+* 展示同样高亮的 `代码片`.
 
 ```
 ​```javascript
@@ -117,7 +117,27 @@ var foo = 'bar';
 var foo = 'bar';
 ```
 
+* 代码折叠
 
+```
+<details>
+<summary>展开查看</summary>
+<pre><code>
+​```c++
+System.out.println("Hello to see U!");
+​```
+</code></pre>
+</details>
+```
+
+<details>
+<summary>展开查看</summary>
+<pre><code>
+```c++
+System.out.println("Hello to see U!");
+```
+</code></pre>
+</details>
 
 ## 插入链接与图片
 
