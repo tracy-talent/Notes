@@ -85,14 +85,14 @@ Maven项目文件结构如下
 
 ![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/spark-mail2.png)
 
-src/main/scala下为源代码，其中Segment.java和EnglishSegment.java用于英文分词，DataPreprocess.scala基于分词作数据预处理，MailClassifier.scala对应邮件分类模型。
+src/main/scala下为源代码，其中Segment.java和EnglishSegment.java用于英文分词，DataPreprocess.scala基于分词作数据预处理，MailClassifier.scala对应邮件分类模型。input下为数据集，output下为数据预处理结果MailCollection和预测结果prediction，target下为maven打好的jar包Mail.jar以及运行脚本submit.sh，pom.xml为maven配置。
 
 ### 4.3 运行方式
 
-将数据集20_newsgroup放在input目录下，确保pom.xml中的依赖包都满足以后运行DataPreprocess得到预处理的结果MailCollection输出到output目录下。启动hadoop的hdfs，将MailCollection上传到hdfs上以便spark读取，然后启动spark，命令行下提交任务
+将数据集20_newsgroup放在input目录下，确保pom.xml中的依赖包都满足以后运行DataPreprocess得到预处理的结果MailCollection输出到output目录下。启动hadoop的hdfs，将MailCollection上传到hdfs上以便spark读取。然后启动spark，命令行下进入到target路径下运行./submit.sh提交任务，submit.sh内容如下
 
 ```shell
 spark-submit --class MailClassifier --master spark://master:7077 --conf spark.driver.memory=10g --conf spark.executor.memory=4g --conf spark.executor.cores=2 --conf spark.kryoserializer.buffer=512m --conf spark.kryoserializer.buffer.max=1g Mail.jar input/MailCollection output
 ```
 
-运行MailClassifier需要两个命令行参数，input/MailCollection为上传到hdfs上的路径名，output为预测结果输出到hdfs上的路径名，提交任务前确保输出路径在hdfs上不存在，否则程序会删除输出输出路径以确保程序正确运行。
+运行MailClassifier需要两个命令行参数，其中input/MailCollection为上传到hdfs上的路径名，output为预测结果输出到hdfs上的路径名，提交任务前确保输出路径在hdfs上不存在，否则程序会删除输出输出路径以确保程序正确运行。
