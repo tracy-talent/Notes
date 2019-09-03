@@ -1,10 +1,12 @@
-<center><h1>docker在centos下安装教程</h1></center>
+<center><h1>centos下docker安装教程</h1></center>
 
 目前最新版本的docker19.03支持nvidia显卡与容器的无缝对接，从而摆脱了对[nvidia-docker](https://github.com/NVIDIA/nvidia-docker)的依赖。因此毫不犹豫安装19.03版本的docker，安装教程可参考官方教程[Get Docker Engine - Community for CentOS](https://docs.docker.com/install/linux/docker-ce/centos/)，安装好之后还要解决一个问题就是如何才能使非root用户拥有docker使用权。
 
 用户其实是通过/var/run/docker.sock与docker容器进行交互，因此要获得docker使用权则必须拥有对/var/run/docker.sock这个文件的读写权，使用stat命令查看/var/run/docker.sock这个文件的基本信息
 
-![](https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/docker-sock-stat.png)
+<div align="center">
+	<img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/docker-sock-stat.png">
+</div>
 
 可以看到root和docker group对docker.sock拥有读写权，那么非root用户只要成为docker group中的一员即可拥有对docker.sock的读写权，下面给出具体步骤:
 
