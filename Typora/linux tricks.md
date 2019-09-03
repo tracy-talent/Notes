@@ -229,3 +229,9 @@ sudo gpasswd -d brookj docker 从docker这个group中删除brooksj这个用户
 sudo groupdel docker  删除docker这个group
 ```
 
+* 切换group
+
+```
+newgrp docker 将当前用户从切换到docker这个group,前提是用户在这个group下
+```
+
