@@ -205,6 +205,12 @@ ctrl+PaDn  切换到下一个窗口
 
 ## group管理
 
+* 查询用户所在group
+
+```
+groups $USER
+```
+
 * 创建group
 
 ```
@@ -215,6 +221,7 @@ sudo groupass docker 创建一个docker用户组
 
 ```
 sudo usermod -aG docker brooksj 添加brooksj用户到docker中
+sudo gpasswd -a brooksj docker 添加brooksj用户到docker中
 ```
 
 * 从group中删除一个用户
@@ -233,5 +240,16 @@ sudo groupdel docker  删除docker这个group
 
 ```
 newgrp docker 将当前用户从切换到docker这个group,前提是用户在这个group下
+```
+
+
+
+## user管理
+
+* 创建用户
+
+```
+创建用户brooksj,-s指定使用的shell,指定/sbin/nologin的不允许登录,-d指定用户主目录,配合-m使用则当用户主目录不存在时创建主目录,-g指定用户组
+sudo useradd -s /bin/bash -d /home/brooksj -g users -m brooksj 
 ```
 
