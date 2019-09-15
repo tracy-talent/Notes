@@ -214,7 +214,7 @@ groups $USER
 * 创建group
 
 ```
-sudo groupass docker 创建一个docker用户组
+sudo groupadd docker 创建一个docker用户组
 ```
 
 * 添加用户到group中
