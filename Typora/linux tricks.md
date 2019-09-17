@@ -1,5 +1,4 @@
 <center><h1>Linux Tricks</h1></center>
-
 ## vim
 
 * vim打开文件中文乱码问题解决方法

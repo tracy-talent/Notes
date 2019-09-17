@@ -5,13 +5,11 @@ powerline是一款比较炫酷的状态栏工具，多用于vim和终端命令�
 </div>
 
 <center>图 1  powerline在shell下的效果图</center>
-
 <div align="center">
     <img src="https://raw.githubusercontent.com/tracy-talent/Notes/master/imgs/powerline_vim.png">
 </div>
 
 <center>图 2 powerline在vim下的效果图</center>
-
 ## step1
 
 确保当前系统中已有可用的git和python-pip，这两个常用工具相信大家电脑上基本都有安装，没装的网上教程也很多，这里就不再赘述这两个工具的安装方法。有了这两个工具之后就可以执行下面这条命令来安装powerline
@@ -35,6 +33,13 @@ wget https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbol
 mv PowerlineSymbols.otf /usr/share/fonts
 fc-cache -vf /usr/share/fonts/  #更新系统的字体缓存
 mv 10-powerline-symbols.conf /etc/fonts/conf.d 
+```
+
+除了上面这种安装字体的方式之外还有一种更简洁的命令行安装方式，apt安装 [Powerline-patched font](https://github.com/Lokaltog/powerline-fonts)
+
+```shell
+sudo apt-get install fonts-powerline
+fc-cache -vf /usr/share/fonts/  #更新系统的字体缓存
 ```
 
 ## step3
