@@ -1,5 +1,4 @@
 <center><h1>docker tricks</h1></center>
-
 ## Command
 
 * docker search ‘img’  ---搜索查找远程库中的镜像
