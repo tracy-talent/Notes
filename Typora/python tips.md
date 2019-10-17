@@ -1,6 +1,5 @@
 <center><h1>python tips</h1></center>
-
-## logging模块的使用
+### logging模块的使用
 
 ```python
 import logging
@@ -15,6 +14,14 @@ logging.basicConfig(format='%(asctime)s: %(levelname)s: %(message)s')
 logging.root.setLevel(level=logging.INFO)
 # 输出日志信息内容
 logger.info("running %s" % ' '.join(sys.argv))
+```
+
+### format格式化输出字典
+
+```
+d = {'world':3.0, 'python':3.6}
+print('hello {world:0.3f}'.format(**d))  # 输出value: 在格式化字符串{}中加入字典中的key，字典传入加上**
+print('hello {} {}'.format(*d)) # 输出key
 ```
 
 

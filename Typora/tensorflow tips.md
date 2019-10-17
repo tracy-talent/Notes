@@ -40,4 +40,29 @@
   ```
 
   由输出可以看出g和tf.get_defalut_graph()显然是不同的两个图
+  
+* glorot_uniform_initializer(Xaiver初始化器，权重为0，方差为2/(n_in+n_out)的均匀分布或者高斯分布)是variable的默认initilizer
 
+* tf.Tensor没有重载'=='运算符，使用tf.equal替代
+
+* tf.metrics.accuracy()会返回2个常量acc和acc_update_op，并且自动创建两个局部变量total(正确的数目)和count(总数目)，acc直接返回total/count而acc_update_op会更新total和count再返回acc=total/count，注意使用前先初始化局部变量sess.run(tf.local_variables())
+
+* 设置程序可用的cuda设备: `os.environ['CUDA_VISIBLE_DEVICES']='0,1,2,3'`或者命令行下`CUDA_VISIBLE_DEVICES=1 python example.py`
+
+* tf.pad的"CONSTANT"模式paddings长度没有限制，"SYMMETRIC"模式paddings每一维度长度不超过原tensor的每一维大小，"REFLECT"模式paddings每一维度长度不超过原tensor每一维大小-1
+
+* Last-layer activation and loss function combinations
+
+  | **Problem type**                         | **Last-layer activation** | **Loss function**          |
+  | ---------------------------------------- | ------------------------- | -------------------------- |
+  | Binary classification                    | sigmoid                   | binary_crossentropy        |
+  | Multi-class, single-label classification | softmax                   | categorical_crossentropy   |
+  | Multi-class, multi-label classification  | sigmoid                   | binary_crossentropy        |
+  | Regression to arbitrary values           | None                      | mse                        |
+  | Regression to values between 0 and 1     | sigmoid                   | mse or binary_crossentropy |
+
+* tf.keras.model中的verbose参数用于指定输出样式，verbose = 0 为不在标准输出流输出日志信息，verbose = 1 为输出进度条记录，verbose = 2 为每个epoch输出一行记录，例：model.fit(train_data, train_labels, epochs=10, batch=128, validation_data=(val_data, val_labels), verbose=1)
+
+* underfit原因：1. 训练集小，数据不全面；2. 模型太简单不够强大，过正则化over-regularized；3. 训练轮数太少
+
+* overfit原因：1. 训练轮数太多；2. 模型太复杂学习到的非泛化的细节太多。解决overfit：1. 在更大的数据集上训练; 2. 减少训练轮数；3.  正则化(weight regularization and dropout)，place constaints on the quantity and type of information the model can store, focus on the most prominent patterns to have a better chance of generalizing well；4. reduce the size of the model(reduce the capacity of network), i.e. the number of learnable parameters in the model (which is determined by the number of layers and the number of units per layer).
