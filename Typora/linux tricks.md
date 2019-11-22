@@ -163,6 +163,28 @@ unrar e FileName.rar
 
 
 
+## head/tail命令
+
+* 提取文件指定行数到另一个文件
+
+  ```
+  head -10000 a.txt > b.txt  提取a.txt文件前10000行到文件b.txt
+  ```
+
+* 复制前100个文件到文件夹tmp中
+
+  ```
+  ls |head -n 100|xargs -i cp {} /tmp
+  ```
+
+* 复制后100个文件到文件夹tmp中
+
+  ```
+  ls |tail -n 100|xargs -i cp {} /tmp
+  ```
+
+  
+
 ## 快捷键
 
 * shell窗口命令
@@ -192,6 +214,19 @@ ctrl+PaDn  切换到下一个窗口
 
 
 
+## 测试端口
+
+* 测试某台机器上的某端口是否开启
+
+  ```shell
+  curl ip:port
+  wget ip:port
+  ssh -v -p port username@ip
+  telnet ip port
+  ```
+
+  
+
 ## socat代理设置
 
 * 先安装socat，然后使用nohup执行以下命令
@@ -199,6 +234,21 @@ ctrl+PaDn  切换到下一个窗口
   ```shell
   nohup socat tcp-listen:8888,reuseaddr,fork tcp:114.212.85.95:8888 2>&1 &
   ```
+  
+  [socat命令详解](https://www.hi-linux.com/posts/61543.html)
+
+
+
+## squid代理服务
+
+* 配置文件/etc/squid/squid.conf中添加
+
+  ```shell
+  acl all src all # or acl all src 0.0.0.0/0.0.0.0，允许所有ip访问
+  http_access allow all # 允许所有人使用代理
+  ```
+
+  [squid使用及配置详解](https://www.cnblogs.com/he-ding/p/10038264.html)
 
 
 
