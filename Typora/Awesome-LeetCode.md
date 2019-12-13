@@ -179,7 +179,7 @@ for key, value in notfeqchars.items():
 
 <font color='red'>problem: </font>[Top-interview-LeetCode-122. Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
-<font color='green'>tutorial: </font>这一题与[LeetCode-121](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)很相似，但是更复杂一点，121只允许一次交易，122允许多次交易，需要想明白怎么多次交易才能使得利益最大化就很好模拟出这个过程了。维护minpos和maxpos(初始位置为0)，如果后面的股票比前面的股票便宜则更新maxpos=minpos=该股票位置，如果后面股票比maxpos位置股票贵，则更新maxpos到当前位置，并继续探索后一天股价是否有比当前maxpos股价更贵，如果更贵则将maspos继续后移，否则将maxpos和minpos两个位置的股价差累加到收益中，并更新minpos=maxpos=maxpos+1。
+<font color='green'>tutorial: </font>这一题与[LeetCode-121](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)很相似，但是更复杂一点，121只允许一次交易，122允许多次交易，需要想明白怎么多次交易才能使得利益最大化就很好模拟出这个过程了。维护买入的最便宜股票的索引minpos，如果前一天股票价格比今天贵则在前一天抛售股票，并更新minpos到今天的索引。解释：假设当前第i天比第i-1天股票便宜，i后面的第j天股价比第i天贵，那么(prices[i-1]-prices[minpos]) + (prices[j] - prices[i]) = prices[j] - prices[minpos] + (prices[i-1]-prices[i]) > prices[j] - prices[minpos]，因此如果第i-1天的股票更贵，则应该在第i-1天抛售并且更新minpos到第i天。
 
 ### LeetCode-212
 

@@ -1,5 +1,20 @@
 # KickStart
 
+## 2019 Round D
+
+> score: -
+>
+> rank: -
+
+### B
+
+ * 将顺时针和逆时针guests划分开分别处理
+ * 将移动m%n步之后位于同一位置的guests划分为一个group
+ * 利用滑动窗口(alide window)寻找距每个consulate时距最小group即
+
+   为它最后所记住的group
+ * 最终根据每个casulate所属的group，对group中包含的guests进行计数
+
 ## 2019 Round H
 
 > score: 41
