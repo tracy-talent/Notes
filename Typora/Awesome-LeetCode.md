@@ -71,7 +71,13 @@
 
 <font color='red'>problem:</font> [Top-100-LeetCode-146. LRU Cache](https://leetcode.com/problems/lru-cache/)
 
-<font color='green'>tutorial: </font>哈希表(onordered_map<int, ListNode*>)查询+双向链表+内存优化(只使用capacity个ListNode)
+<font color='green'>tutorial: </font>哈希表(unordered_map<int, ListNode*>)查询+双向链表+内存优化(只使用capacity个ListNode)，也可以使用STL中的list\<pii\>，但是就没有了内存优化
+
+### <font color='cyan'>LeetCode-460(cache LFU 模拟)</font>
+
+<font color='red'>problem: </font>[LeetCode-460. LFU Cache](https://leetcode.com/problems/lfu-cache/)
+
+<font color='green'>tutorial: </font>与LRU相比，LFU多了一个限制条件就是频率，只有频率相同的元素才使用LRU的原则，其实这就相当于让每个频率对应一个LRU使用的数据结构即可实现LFU。使用unordered_map\<int, list\<int\>\> freq2key存储freq到key的映射，unordered_map<int, list\<int\>::iterator> itermap存储key到freq2key中值list的元素迭代器，以便实现O(1)的更新删除操作，unordered_map\<int, pair\<int, int\>\> kvf存储key到(value, freq)的映射。使用一个变量minfreq记录当前cache中所有元素的最小使用频率，以便在cache容量超出限制的时候剔除频率为minfreq的LRU元素。
 
 ### LeetCode-236
 
@@ -276,3 +282,51 @@ int getSum(int a, int b) {
 <font color='red'>problem: </font>[Top-interview-LeetCode-395. Longest Substring with At Least K Repeating Characters](https://leetcode.com/problems/longest-substring-with-at-least-k-repeating-characters/)
 
 <font color='green'>tutorial: </font>这一题写的时候找到了bug问题所在，但是没想到要缩小区间去重新计数(总想着只遍历一次。。。)。有两种解决方案：方案1，暴力，二次遍历区间(i, j)，使用26位的位计算(<k置1，>=k置0)，如果位存储单元mask等于0则意味着当前区间(i,j)满足，更新ans，则下一次遍历起始位置必大于j，不必再重新计算(i,j)，最坏时间复杂度O(n^2)。方案2，使用递归区间的方式，找到满足计数>=k的连续区间(i,j)并递归(i,j)，重新计数(i,j)区间内的字符，如果i~j的每一字符的新计数都>=k则直接返回j-i+1作为结果，否则缩小区间继续递归。
+
+### LeetCode-47
+
+<font color='red'>problem: </font>[medium-LeetCode-47. Permutations II](https://leetcode.com/problems/permutations-ii/submissions/)
+
+<font color='green'>tutorial: </font>2种方法。
+
+<font color='magenta'>solution1: </font>先排序，对每一个位置从头开始遍历数组，used数组维护元素是否已被使用过，没有使用过的元素可以放到当前位置，然后used标记该元素使用过，迭代执行下一个位置从头开始遍历数组，用一个额外的数组存储遍历过程中的中间排列。
+
+<font color='magenta'>solution2: </font>先排序，从左往右dfs每一个位置idx，然后从左往右每次将idx之后的每一个元素i与idx置换，效果相当于将下标区间[idx, i)之间的元素右挪一个位置，i被置换到idx上，这样idx之后的所有元素依然保持有序，然后进入下一轮dfs(注意nums数组要非引用传入，不让后面的dfs影响当前这一轮dfs的nums数组位置)，知道最后一个位置dfs结束后的nums数组即为一种排列结果。
+
+方法1时间复杂度为$O(n^n)$，方法2时间复杂度为O(n!)，而且方法2的空间复杂度更低，无须额外数组储存排列中间结果，而是直接对输入数组nums进行swap，代码量更小也更高效。
+
+### LeetCode-240
+
+<font color='red'>problem: </font>[medium-LeetCode-240. Search a 2D Matrix II](https://leetcode.com/problems/search-a-2d-matrix-ii/)
+
+<font color='green'>tutorial: </font>矩阵从左到右、从上到下有序，要求查找一个数。一开始想法是从第一行第一列开始二分查找，然后不断缩小矩阵大小，复杂度为$O(nlogn)$.后来发现只要从左下角或者右上角开始查找，每次用顶角的元素进行比较，根据比较的结果将这一顶角对应的行或者列从查找范围中排除，这样每次比较都可以缩小一行或者一列，只需比较m+n-1次即可得到结果，根据adversary argument(对手理论)可证明n*n矩阵使用斜对角线以及次斜对角线上的数与查找目标进行比较是最优的​，至少要比较2\*n-1次，这个算法课上有讲过。
+
+### LeetCode-935
+
+<font color='red'>problem: </font> [medium-LeetCode-935. Knight Dialer](https://leetcode.com/problems/knight-dialer/)
+
+<font color='green'>tutorial: </font>在电话号码盘上只能走"马"，问走N步可以拨出多少种不同的号码。动态规划的思想，基于前一步每个号码的计数来计算下一步每个号码的计数，提前存好从每一个号码可以通过走"马"跨越到的号码。
+
+### LeetCode-93
+
+<font color='red'>problem: </font>[medium-LeetCode-93. Restore IP Addresses](https://leetcode.com/problems/restore-ip-addresses/)
+
+<font color='green'>tutorial: </font>给出一段数字字符串，输出所有可能的用"."分割的IP地址。先说我的做法是一个一个字符的判断处理，实际更高效更清晰的做法是将字符串分段处理，段的大小为1\~3，然后记录分割段的数目，等于4就不再递归分段而是判断是否已处理完所有的字符。分段的好处在于可以直接判断一个段的合理性，而不像单个字符处理那样还需要从生成的候选IP字符串中从最后一个"."后进行截取。
+
+### LeetCode-95
+
+<font color='red'>problem: </font>[medium-LeetCode-95. Unique Binary Search Trees II](https://leetcode.com/problems/unique-binary-search-trees-ii/)
+
+<font color='green'>tutorial: </font>求数字1\~n的所有可能二叉搜索树。bst总数就是卡特兰数: $h(n)=\sum_{i=1}^{n}h(i-1)h(n-i)$，因此可由递归构造。
+
+### LeetCode-109
+
+<font color='red'>problem: </font>[medium-LeetCode-109. Convert Sorted List to Binary Search Tree](https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/)
+
+<font color='green'>tutorial: </font>将有序链表转换成二叉搜索树。使用快慢指针递归求解，快指针到头时，慢指针所指向位置即为当前序列对应bst的根节点。可以只提供链表头结点的但函数实现，那么需要获取序列对应bst根节点的前一个位置，且对长度为0,1,2的链表序列要单独处理。
+
+### LeetCode-117
+
+<font color='red'>problem: </font>[medium-LeetCode-117. Populating Next Right Pointers in Each Node II](https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/)
+
+<font color='green'>tutorial: </font>将每一层二叉树节点从左指向右。一开始我bfs层次遍历实现的，更优雅的解法是递归实现，用父节点root的next节点找下一层的root->right节点后的第一个非空节点。
