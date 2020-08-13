@@ -163,6 +163,24 @@ unrar e FileName.rar
 
 
 
+## dpkg命令
+
+* dpkg参数说明
+
+  ```bash
+  dpkg -r # 删除但是配置文件不删
+  dpkg -P/--purge # 包括配置文件都删除
+  ```
+
+* 批量删除
+
+  ```bash
+  # 删除deepin开头的软件
+  dpkg -l |grep deepin|awk '{print $2}'|xargs sudo dpkg -P
+  ```
+
+  
+
 ## head/tail命令
 
 * 提取文件指定行数到另一个文件
