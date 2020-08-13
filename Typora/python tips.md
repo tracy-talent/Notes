@@ -56,9 +56,3 @@ p.findall('dxhelloxs')  # 输出['hello']
 
 
 
-
-
-
-
-
-
