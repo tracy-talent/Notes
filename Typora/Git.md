@@ -77,6 +77,12 @@
   3.git reset --hard HEAD~n  撤销最近的n个commit
   ```
 
+* 强制远程库回退
+
+  ```
+  git push origin HEAD --force  强制远程库回退到本地当前所指的commit
+  ```
+
 * 撤销工作区最近一次提交后的修改
 
   ```
