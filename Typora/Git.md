@@ -55,12 +55,32 @@
     git merge origin/<branch>  合并代码
   ```
 
+* 更新本地仓库与远程仓库同步
+
+  ```
+  prune使得远程仓库中删除的分支在本地也会被删除
+    1.git remote update origin --prune
+    2.git remote prune origin 
+  ```
+
+* 查看提交日志
+
+  ```
+  git log --graph --oneline --abbrev-commit
+  ```
+  
 * 撤销提交(commit)
 
   ```
   1.git reset --hard HEAD^  工作区回退到最近一个commit之前的状态,撤销上一个commit
   2.git reset --hard commitid  直接移到想要的commit状态
   3.git reset --hard HEAD~n  撤销最近的n个commit
+  ```
+
+* 强制远程库回退
+
+  ```
+  git push origin HEAD --force  强制远程库回退到本地当前所指的commit
   ```
 
 * 撤销工作区最近一次提交后的修改

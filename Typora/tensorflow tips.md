@@ -61,9 +61,21 @@
   | Regression to arbitrary values           | None                      | mse                        |
   | Regression to values between 0 and 1     | sigmoid                   | mse or binary_crossentropy |
 
+* tf.keras.losses.BinaryCrossentropy\(from_logits=False, label_smoothing=0，reduction=losses_utils.ReductionV2.AUTO)，label_smoothing是一种正则化方法的参数，在transformer中有用到。reduction设置为AUTO会根据实际计算来决定结果tensor的shape。若from_logits为False表明输出概率已经过sigmoid处理，假设输出类别有C类，每一类概率$p_i$，对应真实标记$y_i$，那么$bce=\frac{\sum_{i=1}^{C}(y_i*log(p_i)+(1-y_i)*log(1-p_i))}{C}$即对每个样本计算其类别的平均bce作为返回值。若from\_logits为True则等价于调用tf.keras.loss.sigmoid_cross_entropy_with_logits，该函数会使用sigmoid对输入作转换，BinaryCrossentropy也是在内部调用sigmoid_cross_entropy_with_logits，建议直接使用sigmoid_cross_entropy_with_logits因为其对$sigmoid(x)=\frac{1}{1+e^{-x}}$在x为负数时作了优化防止数值上溢更稳定，优化方法如下:
+  $$
+  \begin{aligned}
+  bce&=-ylog(\frac{1}{1+e^{-x}})-(1-y)log(\frac{e^{-x}}{1+e^{-x}})\\
+  &=x - yx+log(1+e^{-x}),x>=0\\
+  &=-yx+log(1+e^x),x<0
+  \end{aligned}
+  $$
+  x>=0和x<0分别采用不同的方式计算防止计算上溢，同时sigmoid函数也可以保证不会出现0,1这样的极端值，而BinaryCrossentropy则会在计算log的时候会加入平滑参数$\epsilon$应对极端值0,1，因此使用BinaryCrossentropy(from\_logits=True)或者sigmoid_cross_entropy_with_logits为佳。(BinaryCrossentropy调用[keras.binary_crossentropy](https://sourcegraph.com/github.com/tensorflow/tensorflow@5fcc70306dffd38d4738fd8655f43a13ea382f6a/-/blob/tensorflow/python/keras/backend.py#L4712:1))
+
+* tf.keras.losses.CategoricalCrossentropy(from_logits=False,label_smoothing=0)，参数作用同上，这里的logits处理函数是softmax，一般用于single label的分类，所以SparseCategoricalCrossentropy用得更多，同样建议设置from_logits=True，或者使用sparse_softmax_cross_entropy_with_logits。注意其不能用于二分类问题，其在二分类问题中的损失函数为$ce=-ylog(p)$，只有正样本的损失使得分类模型最终只能分辨正样本，对负样本的分类能力很弱基本等价于随机猜测。
+
 * tf.keras.model中的verbose参数用于指定输出样式，verbose = 0 为不在标准输出流输出日志信息，verbose = 1 为输出进度条记录，verbose = 2 为每个epoch输出一行记录，例：model.fit(train_data, train_labels, epochs=10, batch=128, validation_data=(val_data, val_labels), verbose=1)
 
-* underfit原因：1. 训练集小，数据不全面；2. 模型太简单不够强大，过正则化over-regularized；3. 训练轮数太少
+* underfit原因：1. s训练集小，数据不全面；2. 模型太简单不够强大，过正则化over-regularized；3. 训练轮数太少
 
 * overfit原因：1. 训练轮数太多；2. 模型太复杂学习到的非泛化的细节太多。解决overfit：1. 在更大的数据集上训练; 2. 减少训练轮数；3.  正则化(weight regularization and dropout)，place constaints on the quantity and type of information the model can store, focus on the most prominent patterns to have a better chance of generalizing well；4. reduce the size of the model(reduce the capacity of network), i.e. the number of learnable parameters in the model (which is determined by the number of layers and the number of units per layer).
 
@@ -76,3 +88,5 @@
 * tf.function转换graph mode时，转换代码内部不能直接使用v = tf.Variable创建变量，而要判断if v is None再创建，否则tensorflow的Autograph转换成图模式的代码时会报tried to create variables on non-first call，因为会重复创建同名variable
 
 * [tf.compat.v1.train.Supervisor](https://www.tensorflow.org/api_docs/python/tf/compat/v1/train/Supervisor)方法介绍：sv = Supervisor(logdir='/tmp/mydir')，Within the `with sv.managed_session()` block all variables in the graph have been initialized. In addition, a few services have been started to checkpoint the model and add summaries to the event log. If the program crashes and is restarted, the managed session automatically reinitialize variables from the most recent checkpoint.提示：This class is deprecated. Please use [`tf.compat.v1.train.MonitoredTrainingSession`](https://www.tensorflow.org/api_docs/python/tf/compat/v1/train/MonitoredTrainingSession) instead.
+
+  

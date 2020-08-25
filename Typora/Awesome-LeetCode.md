@@ -1,4 +1,10 @@
 <h1>Awesome LeetCode</h1>
+### LeetCode-4
+
+<font color='red'>problem: </font>[Top100-LeetCode-4. Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/)
+
+<font color='green'>tutorial: </font>设数组A元素m个，数组B元素n个，将两个数组分别划分为左右两部分A\[0\~i-1\]和B\[0\~j-1]，使得两个数组左部分元素数目之和i + j = (n + m + 1) / 2，又因为j = (n + m + 1) / 2 - i > 0，而0 < i < m，所以有(n + m + 1) / 2 > m，因此n + 1 > m即n >= m，这一限制条件要求数组A长度不超过数组B。然后对数组A划分点二分，初始l=0,r=m,满足条件的划分点i=(l+r)/2必满足A\[i-1\]<=B\[j\]，B\[j-1\]<=A\[i\]，若A\[i-1]>B\[j]则更新r=i-1，若B\[j-1\]>A\[i\]则更新l=i+1，总体时间复杂度log(min(m, n))，参考[csdn](https://blog.csdn.net/hit1110310422/article/details/80865539)
+
 ### LeetCode-10
 
 <font color='red'>problem: </font>[Top100-LeetCode-10. Regular Expression Matching](https://leetcode.com/problems/regular-expression-matching/)
@@ -187,6 +193,12 @@ for key, value in notfeqchars.items():
 
 <font color='green'>tutorial: </font>这一题与[LeetCode-121](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)很相似，但是更复杂一点，121只允许一次交易，122允许多次交易，需要想明白怎么多次交易才能使得利益最大化就很好模拟出这个过程了。维护买入的最便宜股票的索引minpos，如果前一天股票价格比今天贵则在前一天抛售股票，并更新minpos到今天的索引。解释：假设当前第i天比第i-1天股票便宜，i后面的第j天股价比第i天贵，那么(prices[i-1]-prices[minpos]) + (prices[j] - prices[i]) = prices[j] - prices[minpos] + (prices[i-1]-prices[i]) > prices[j] - prices[minpos]，因此如果第i-1天的股票更贵，则应该在第i-1天抛售并且更新minpos到第i天。
 
+### LeetCode-123
+
+<font color='red'>problem: </font>[Hard-123. Best Time to Buy and Sell Stock III](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/submissions/)
+
+<font color='green'>tutorial: </font>这一题与[LeetCode-121](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)相似，121只允许交易一次，123允许交易2次，很自然的一个想法是遍历交易日，求左右两边一次交易的最大收益相加即可。分别预处理得到从左到右和从右到左一次交易得到的最大收益，一次交易最大收益求法同121，程序时间复杂度为$O(n)$
+
 ### LeetCode-212
 
 <font color='red'>problem: </font>[Top-interview-LeetCode-212. Word Search II](https://leetcode.com/problems/word-search-ii/)
@@ -330,3 +342,43 @@ int getSum(int a, int b) {
 <font color='red'>problem: </font>[medium-LeetCode-117. Populating Next Right Pointers in Each Node II](https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/)
 
 <font color='green'>tutorial: </font>将每一层二叉树节点从左指向右。一开始我bfs层次遍历实现的，更优雅的解法是递归实现，用父节点root的next节点找下一层的root->right节点后的第一个非空节点。
+
+### LeetCode-440
+
+<font color='red'>problem: </font>[hard-LeetCode-440. K-th Smallest in Lexicographical Order](https://leetcode.com/problems/k-th-smallest-in-lexicographical-order/)
+
+<font color='green'>tutorial: </font>计算某个前缀prefix开始的数有多少个，$[prefix, prefix+1), [prefix*10, (prefix+1)*10), [prefix*100, (prefix+1)*100)...$，假设prefix开始的数有cnt个，如果k小于cnt，那么prefix\*\=10，k--，如果k大于等于cnt，那么prefix++，k-=cnt.
+
+### LeetCode-494
+
+<font color='red'>problem: </font>[medium-LeetCode-494. Target Sum](https://leetcode.com/problems/target-sum/)
+
+<font color='green'>tutorial: </font>数组nums，设P表示添加正号的数集合，设N表示添加负号的数集合，那么sum(P)-sum(N)=target，sum(P)+sum(N)+sum(P)-sum(N)=target+sum(nums) 可推出sum(P)=(target+sum(nums))/2，其中target和sum(nums)必须同奇同偶，这样就将问题转换成0-1背包问题
+
+```c++
+dp[i][s]:0~i个数正数和为s的计数个数
+优化成一维背包
+w = (target + sum(nums))/2
+dp[0]=1
+for (int i = 0; i < n; i++) 
+    for (int s = w; s>=nums[i]; s--)
+        dp[s] = dp[s] + dp[s - nums[i]];
+```
+
+### LeetCode-1375
+
+<font color='red'>problem: </font>[medium-LeetCode-1375. Bulb Switcher III](https://leetcode.com/problems/bulb-switcher-iii/)
+
+<font color='green'>tutorial: </font>这题还挺有意思的，要求以O(1)的空间复杂度解决，遍历打开顺序，维护当前打开的最大灯序号，如果该灯序号等于当前遍历位置+1，那么结果+1
+
+### LeetCode-672
+
+<font color='red'>problem: </font>[medium-LeetCode-672. Bulb Switcher II](https://leetcode.com/problems/bulb-switcher-ii/)
+
+<font color='green'>tutorial: </font>智商题。考虑到前3种操作任取2种等价于剩下的一种，3种操作同时使用等价于无操作，所以最终的操作状态归为\[无操作,1,2,3,4,(1,2),(1,3),(1,4)\]，分情况讨论n<=2和m<=2的情况，当m>=3且n>=3时返回8
+
+### LeetCode-319
+
+<font color='red'>problem: </font>[medium-LeetCode-319. Bulb Switcher](https://leetcode.com/problems/bulb-switcher/)
+
+<font color='green'>tutorial: </font>智商题。只有被操作奇数次的灯才会亮，对于第k个灯，它会被操作k的因子个数的次数，而一个数的因子都是成对出现的，只有完全平方数有一对重合因子，所以最终只有完全平方数编号的灯亮着。返回floor(sqrt(n))
