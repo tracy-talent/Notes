@@ -9,7 +9,9 @@ program = os.path.basename(sys.argv[0])
 logger = logging.getLogger(program)
 
 # 设置日志输出内容：时间%Y-%m-%d %H:%M:%S，日志级别INFO,WARNING,ERROR，日志信息
-logging.basicConfig(format='%(asctime)s: %(levelname)s: %(message)s')
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
+                   datefmt='%Y-%m-%d %H:%M:%S',
+                   level=logging.INFO)
 # 设置输出的日志级别
 logging.root.setLevel(level=logging.INFO)
 # 输出日志信息内容
