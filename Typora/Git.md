@@ -1,4 +1,4 @@
-﻿# Git
+# Git
 
 * 查看分支
 
@@ -19,7 +19,7 @@
   ```
   1.git push origin --delete tag <tagname>  直接删除远程标签
   2.git tag -d <tagname>  删除远程标签的先决条件是先删除本地标签
-    git push origin :refs/tags/<tagname>  然后删除远程标签
+  3.git push origin :refs/tags/<tagname>  然后删除远程标签
   ```
 
 * 合并分支
@@ -59,8 +59,8 @@
 
   ```
   prune使得远程仓库中删除的分支在本地也会被删除
-    1.git remote update origin --prune
-    2.git remote prune origin 
+  1.git remote update origin --prune
+  2.git remote prune origin 
   ```
 
 * 查看提交日志
