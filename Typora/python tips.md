@@ -18,6 +18,8 @@ logging.root.setLevel(level=logging.INFO)
 logger.info("running %s" % ' '.join(sys.argv))
 ```
 
+
+
 ### format格式化输出字典
 
 ```
@@ -25,6 +27,48 @@ d = {'world':3.0, 'python':3.6}
 print('hello {world:0.3f}'.format(**d))  # 输出value: 在格式化字符串{}中加入字典中的key，字典传入加上**
 print('hello {} {}'.format(*d)) # 输出key
 ```
+
+
+
+### 装饰器
+
+1. 不带参数的装饰器等价于wrapper(wrapped)(\*args, \*\*kargs) ，关于functools中的wraps装饰可参考：[wraps](https://segmentfault.com/a/1190000009398663)，主要用于交换装饰函数和被装饰函数之间的\_\_doc\_\_、\_\_name\_\_等属性，不交换则wrapped的这些属性都是wrapper装饰之后的wrapper_func的属性
+
+```python
+from functools import wraps
+
+def wrapper(f=None):
+    @wraps(f)
+    def wrapper_func(*args, **kargs):
+        return f(*args, **kargs)
+    return wrapper_func
+
+@wrapper
+def wrapped(*arg, **kargs):
+    pass
+```
+
+2. 带参数的装饰器等价于wrapper(start_log="test")(wrapped)(\*args, \*\*kargs)
+
+```python
+from functools import wraps, partial
+
+def wrapper(f=None, start_log=None):
+    if f is None:
+        return partial(wrapper, start_log=start_log)
+    @wraps(f)
+    def wrapper_func(*args, **kargs):
+        if start_log is not None:
+            print(start_log)
+        return f(*args, **kargs)
+    return wrapper_func
+
+@wrapper(start_log="test")
+def wrapped(*arg, **kargs):
+    pass
+```
+
+
 
 ### 正则表达式re
 
@@ -55,6 +99,5 @@ x = '(?<=x)hello(?=x)'
 p = re.compile(x)
 p.findall('dxhelloxs')  # 输出['hello']
 ```
-
 
 
