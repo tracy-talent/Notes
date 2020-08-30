@@ -89,4 +89,29 @@
 
 * [tf.compat.v1.train.Supervisor](https://www.tensorflow.org/api_docs/python/tf/compat/v1/train/Supervisor)方法介绍：sv = Supervisor(logdir='/tmp/mydir')，Within the `with sv.managed_session()` block all variables in the graph have been initialized. In addition, a few services have been started to checkpoint the model and add summaries to the event log. If the program crashes and is restarted, the managed session automatically reinitialize variables from the most recent checkpoint.提示：This class is deprecated. Please use [`tf.compat.v1.train.MonitoredTrainingSession`](https://www.tensorflow.org/api_docs/python/tf/compat/v1/train/MonitoredTrainingSession) instead.
 
+* tf.ConfigProto一般用在创建session时对session进行参数配置
+
+  ```python
+  #tf.ConfigProto()的参数
+  log_device_placement=True : 是否打印设备分配日志
+  allow_soft_placement=True ： 如果你指定的设备不存在，允许TF自动分配设备
+  tf.ConfigProto(log_device_placement=True,allow_soft_placement=True)
+  ```
+
+* 控制GPU资源使用率可以使用tf.ConfigProto也可以使用tf.GPUoptions
+
+  ```python
+  #allow growth
+  config = tf.ConfigProto()
+  config.gpu_options.allow_growth = True
+  session = tf.Session(config=config, ...)
+  # 使用allow_growth_option，刚一开始分配少量的GPU容量，然后按需慢慢的增加，由于不会释放内存，所以会导致碎片
   
+  # per_process_gpu_memory_fraction
+  gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.7)
+  config=tf.ConfigProto(gpu_options=gpu_options)
+  session = tf.Session(config=config, ...)
+  #设置每个GPU应该拿出多少容量给进程使用，0.4代表 40%
+  ```
+
+  而控制使用哪块GPU有两种方式：1. 命令行下执行CUDA_VISIBLE_DEVICES=0,1 python your.py   2. 在程序开头os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
