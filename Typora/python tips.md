@@ -8,14 +8,37 @@ import sys
 program = os.path.basename(sys.argv[0])
 logger = logging.getLogger(program)
 
+# 设置输出的日志级别
+# logging.root.setLevel(level=logging.INFO)
+logger.setLevel(level=logging.INFO) 
+# 设置日志输出内容：时间%Y-%m-%d %H:%M:%S，日志级别INFO,WARNING,ERROR，日志信息
+formatter = logging.Formatter(fmt='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
+                   datefmt='%Y-%m-%d %H:%M:%S')
+chlr = logging.StreamHandler()
+chlr.setFormatter(formatter)
+logger.addHandler(chlr)
+
+# 设置日志输出文件
+log_file_path = "./run.log"
+if os.path.exists(log_file_path): 
+    os.remove(log_file_path)
+fhlr = logging.FileHandler(log_file_path)
+fhlr.setFormatter(formatter)
+logger.addHandler(fhlr)
+
+# 输出日志信息内容
+logger.info("running %s" % ' '.join(sys.argv))
+```
+
+也可以用logging设置
+
+```python
 # 设置日志输出内容：时间%Y-%m-%d %H:%M:%S，日志级别INFO,WARNING,ERROR，日志信息
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
                    datefmt='%Y-%m-%d %H:%M:%S',
                    level=logging.INFO)
 # 设置输出的日志级别
 logging.root.setLevel(level=logging.INFO)
-# 输出日志信息内容
-logger.info("running %s" % ' '.join(sys.argv))
 ```
 
 
