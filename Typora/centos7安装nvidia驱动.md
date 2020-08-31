@@ -8,3 +8,9 @@ step3: 确认nouveau已禁用(/usr/lib/modprobe.d/blacklist-nouveau.conf添加`b
 
 step4: reboot
 
+
+
+## tensorlfow
+
+1. tensorflow与cuda的适配版本参考[tf offcial](https://www.tensorflow.org/install/source#gpu_support_3)
+

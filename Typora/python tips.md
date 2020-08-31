@@ -53,6 +53,16 @@ print('hello {} {}'.format(*d)) # 输出key
 
 
 
+### datetime
+
+```python
+import datetime
+# 格式化日期字符串
+date = datetime.datetime.now().strftime('%Y/%m/%d-%H:%M:%S')
+```
+
+
+
 ### 装饰器
 
 1. 不带参数的装饰器等价于wrapper(wrapped)(\*args, \*\*kargs) ，关于functools中的wraps装饰可参考：[wraps](https://segmentfault.com/a/1190000009398663)，主要用于交换装饰函数和被装饰函数之间的\_\_doc\_\_、\_\_name\_\_等属性，不交换则wrapped的这些属性都是wrapper装饰之后的wrapper_func的属性
