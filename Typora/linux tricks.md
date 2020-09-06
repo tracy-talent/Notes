@@ -60,6 +60,13 @@ export TERM=xterm
 verbose map <F5>
 ```
 
+* shell执行出现换行'\r'错误
+
+```shell
+一般是由windows编辑默认换行\r\n而linux换行\n不一致导致，可在vim中执行如下命令解决
+set ff=unix
+```
+
 
 
 ## iconv命令
