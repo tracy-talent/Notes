@@ -382,3 +382,59 @@ for (int i = 0; i < n; i++)
 <font color='red'>problem: </font>[medium-LeetCode-319. Bulb Switcher](https://leetcode.com/problems/bulb-switcher/)
 
 <font color='green'>tutorial: </font>智商题。只有被操作奇数次的灯才会亮，对于第k个灯，它会被操作k的因子个数的次数，而一个数的因子都是成对出现的，只有完全平方数有一对重合因子，所以最终只有完全平方数编号的灯亮着。返回floor(sqrt(n))
+
+### LeetCode-678
+
+<font color='red'>problem: </font>[medium-LeetCode-678. Valid Parenthesis String](https://leetcode.com/problems/valid-parenthesis-string/)
+
+<font color='green'>tutorial: </font>暴搜超时，dfs+记忆化搜索过了，也可以用dp来做，dp\[i]\[j]表示从i到j的字符串是否合理，复杂度O(n^3)，比记忆化搜索耗时长。看题解之后可以O(N)的贪心来做，想不到太精秒了。贪心：假想所有'*'是'('，从左往右遍历保证左括号个数比右括号多，然后把'\*'看做是')'，只要此时左括号个数不比右括号多即合理，否则不合理
+
+### LeetCode-55
+
+<font color='red'>problem: </font>[medium-LeetCode-55. Jump Game](https://leetcode.com/problems/jump-game/)
+
+<font color='green'>tutorial: </font>从右往左贪心，更新可达位置
+
+### LeetCode-45
+
+<font color='red'>problem: </font>[hard-LeetCode-45.Jump Game II](https://leetcode.com/problems/jump-game-ii/)
+
+<font color='green'>tutorial: </font>贪心，把某个位置上能跳的步数看作梯子，步数即为梯长，走完一个梯子才跳，跳的时候选择当前最长梯子作为下一步的梯子。详细解释[YouTube](https://www.youtube.com/watch?v=vBdo7wtwlXs)
+
+### LeetCode-629
+
+<font color='red'>problem: </font>[hard-LeetCode-629.K Inverse Pairs Array](https://leetcode.com/problems/k-inverse-pairs-array/)
+
+<font color='green'>tutorial: </font>动态规划。dp\[i]\[j]表示前i个元素有j个逆序的可能数。$dp[i][j]=\sum_{t=0}^{i-1}{dp[i-1][j-t]}$
+
+### LeetCode-855
+
+<font color='red'>problem: </font>[medium-LeetCode-855.Exam Room](https://leetcode.com/problems/exam-room/)
+
+<font color='green'>tutorial: </font>自定义区间比较的set维护区间使得seat实现O(logN)复杂度，字典unordered_map维护点左右区间边界使得leave实现O(logN)复杂度
+
+### LeetCode-600
+
+<font color='red'>problem: </font>[hard-LeetCode-600.Non-negative Integers without Consecutive Ones](https://leetcode.com/problems/non-negative-integers-without-consecutive-ones/)
+
+<font color='green'>tutorial: </font>斐波拉契数列求n位二进制数不含2个连续1的个数，然后减去大于给定数且满足条件的个数
+
+### LeetCode-974
+
+<font color='red'>problem: </font>[medium-LeetCode-974. Subarray Sums Divisible by K](https://leetcode.com/problems/subarray-sums-divisible-by-k/)
+
+<font color='green'>tutorial: </font>连续子数组和为K的整数倍的个数，考虑2<=K<=10000，可以用数组存储前缀取余和，然后在求总和
+
+### LeetCode-801
+
+<font color='red'>problem: </font>[medium-LeetCode-801. Minimum Swaps To Make Sequences Increasing](https://leetcode.com/problems/minimum-swaps-to-make-sequences-increasing/)
+
+<font color='green'>tutorial: </font>dp.维护n长序列在第n个元素交换和不交换的情况保持有序所需要的最小交换次数n1,s1。
+
+### LeetCode-792
+
+<font color='red'>problem: </font>[medium-792. Number of Matching Subsequences](https://leetcode.com/problems/number-of-matching-subsequences/)
+
+<font color='green'>tutorial: </font>遍历主串S，更新待匹配子序列匹配位置
+
+$$ dp(K, N) = \min_{0 <= i <= N}{\max{dp(K - 1, i - 1), dp(K, N - i)} + 1}$$

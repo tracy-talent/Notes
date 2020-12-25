@@ -115,3 +115,16 @@
   ```
 
   而控制使用哪块GPU有两种方式：1. 命令行下执行CUDA_VISIBLE_DEVICES=0,1 python your.py   2. 在程序开头os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
+  
+* 通过跳板机访问服务器上的tensorboard
+
+  ```python
+  先用16006端口接收跳板机的8008端口：
+  ssh -L 16006:127.0.0.1:8008 account@跳板机ip
+  在用跳板机的8008端口接收服务器的6006端口：
+  ssh -L 8008:127.0.0.1:6006 account@服务器ip
+  cd 到你保存模型的目录，终端输入:tensorboard --logdir=./
+  然后直接在本地浏览器打开连接：http://127.0.0.1:16006/
+  ```
+
+  
