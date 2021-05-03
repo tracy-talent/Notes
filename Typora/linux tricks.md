@@ -327,3 +327,17 @@ newgrp docker 将当前用户从切换到docker这个group,前提是用户在这
 sudo useradd -s /bin/bash -d /home/brooksj -g users -m brooksj 
 ```
 
+
+
+## alias常用命令
+
+```shell
+alias dataset='cd ~/github/AIPolicy/input/benchmark/entity'
+alias labs='cd ~/github/AIPolicy/labs/entity; conda activate py37'
+alias nv='nvidia-smi'
+alias cd='func() { cd $1; ls; }; func'
+alias k9='func() { ps -ef|grep $1|grep -v grep|cut -c 9-15|xargs kill -9; }; func'
+alias tat='tmux a -t'
+alias tns='tmux new -s'
+```
+

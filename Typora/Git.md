@@ -172,3 +172,23 @@
   git rm <submodule-name>
   git submodule deinit <submodule-name>
   ```
+
+* git问题修复
+
+  ```
+  1. fatal: unable to access 'https://github.com/tracy-talent/AIPolicy.git/': OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
+  fix: git config --global --unset-all remote.origin.proxy
+  ```
+
+* git代理
+
+  ```shell
+  #只对github.com
+  git config --global http.proxy socks5://127.0.0.1:1080
+  git config --global https.proxy socks5://127.0.0.1:1080
+  
+  #取消代理
+  git config --global --unset http.proxy
+  ```
+
+  
