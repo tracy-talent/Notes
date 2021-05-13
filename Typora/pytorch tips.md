@@ -1,5 +1,7 @@
 # Pytorch Tips
 
+* [Pytorch FAQ](https://pytorch.org/docs/stable/notes/faq.html)
+
 * 卷积conv
   1. torch.Conv2d(*in_channels*, *out_channels*, *kernel_size*, *stride=1*, *padding=0*, *dilation=1*, *groups=1*, *bias=True*, padding_mode='zeros')
   
@@ -23,6 +25,12 @@
 * pytorch normalization方式
 
   1. torch.nn.BatchNorm2d(num_features, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)，其中num_features对应输入大小(N,C,H,W)中的C(channel)，eps对应公式$y=\frac{x-E[x]}{\sqrt{Var[x]+\epsilon}}*\gamma+\beta$中$\epsilon$平滑参数，初始$\gamma$全为1，$\beta$全为0，$E[x]$和$Var[x]$是除channel维度外的均值和有偏方差，每个channel共用一个参数，一共有C个可学习的$\gamma$和$\beta$，因此公式等价于$y=\frac{x-x.mean(dim=(0, 2, 3), keepdim=True)}{torch.sqrt(x.var(dim=(0, 2, 3), keepdim=True, unbiased=False) + \epsilon)}*\gamma+\beta$. affine为True则表示模型拥有可学习的再缩放参数$\gamma$和再平移参数$\beta$，momentum按公式$\hat{x}_{new}=(1-momentum)\times\hat{x}+momentum\times{x_t}$计算统计值$E[x]和Var[x]$，$x_t$为当前这一个batch计算的统计值。track_running_stats为True表示保存训练阶段最终的均值和方差用于测试阶段，为False则表示测试阶段与训练阶段一样计算每个batch的均值和方差。
-
   2. torch.nn.LayerNorm(normalized_shape, eps=1e-5, elementwise_affine=True)，其中normalized_shape对应input_shape的后缀，以input.shape[1:]为例，eps对应公式$y=\frac{x-E[x]}{\sqrt{Var[x]+\epsilon}}*\gamma+\beta$中$\epsilon$平滑参数，初始$\gamma$全为1，$\beta$全为0，$E[x]$和$Var[x]$是batch中每个样本的均值和有偏方差，样本中每个元素都有可学习的再缩放参数$\gamma$和再平移参数$\beta$，各个样本中对应元素共用参数，所以$\gamma$和$\beta$的size为input.shape[1:]，公式等价于$y=\frac{x-x.mean(dim=tuple(range(1, x.ndim)), keepdim=True)}{torch.sqrt(x.var(dim=tuple(range(1,x.ndim)), keepdim=True, unbiased=False) + \epsilon)} * \gamma + \beta$. elementwise_affine为True则表示模型拥有可学习的参数$\gamma$和$\beta$.
   3. BatchNorm与LayerNorm对比：LayerNorm测试阶段独立计算均值和方差，而BatchNorm测试阶段可采用训练阶段的累积均值和方差，因此BatchNorm需要缓存Channel个均值和方差，内存消耗更大。LayerNorm的均值和方差是针对单个样本计算的，与batch大小无关，不受batch分布影响，适用于小batch或者动态网络比如RNN(RNN由于batch中各个样本序列长度不一致，因此后面的step计算时的batch可能比前面的小，因此BatchNorm不适用)
+  
+* pytorch默认会对大矩阵省略输出，可以通过设置torch.set_printoptions(threshold=np.inf)实现完整输出
+
+* [issue: randomness issue in DataLoader & Dataset](randomness issue in DataLoader & Dataset)，pytorch的dataloader可以通过num_workers设置多进程，为保证不同worker有不同的随机性，pytorch主进程有一个随机数生成器，会为每个worker生成一个不一样的base_seed，每个worker将自己进程内的seed设置为base_seed + worker_id，参考[pytorch官网说明](https://pytorch.org/docs/stable/data.html#randomness-in-multi-process-data-loading)。需要注意的是，==不同的DataLoader都共享主进程中的随机数生成器==，因此切换DataLoader的顺序或者删除某个DataLoader的遍历会导致各DataLoader获取到的随机种子发生变化，从而导致数据shuffle的顺序发生变化，导致结果不可复现。如果在DataLoader中有涉及到numpy的随机性，pytorch没有为每个woker的numpy设置不一样的seed，导致不同worker的numpy生成的随机数可能一致，并且每个epoch生成的数都一致，具体原因分析见[Using Pytorch+Numpy? You're making a mistake](https://tanelp.github.io/posts/a-bug-that-plagues-thousands-of-open-source-ml-projects/)，解决方案见[pytorch官网说明](https://pytorch.org/docs/stable/notes/randomness.html#dataloader)。
+
+* RNN使用pad_packed_sequence在数据并行化时报错，解决方案见[pytorch官网说明](https://pytorch.org/docs/stable/notes/faq.html#my-recurrent-network-doesn-t-work-with-data-parallelism)
+
